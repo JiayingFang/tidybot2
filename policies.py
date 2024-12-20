@@ -283,7 +283,7 @@ class RemotePolicy(TeleopPolicy):
 
     def reset(self):
         # Wait for user to signal that episode has started
-        super().reset()  # Note: Comment out to run without phone
+        # super().reset()  # Note: Comment out to run without phone
 
         # Check connection to policy server and reset policy
         default_timeout = self.socket.getsockopt(zmq.RCVTIMEO)
@@ -296,7 +296,7 @@ class RemotePolicy(TeleopPolicy):
         self.socket.setsockopt(zmq.RCVTIMEO, default_timeout)  # Put default timeout back
 
         # Disable policy execution until user presses on screen
-        self.enabled = False  # Note: Set to True to run without phone
+        self.enabled = True  # Note: Set to True to run without phone
 
     def _step(self, obs):
         # Return teleop command if episode has ended
