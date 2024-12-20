@@ -1,11 +1,11 @@
 # Author: Jimmy Wu
 # Date: October 2024
 
-from tidybot2.cameras import KinovaCamera, LogitechCamera
-from tidybot2.constants import BASE_RPC_HOST, BASE_RPC_PORT, ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
-from tidybot2.constants import BASE_CAMERA_SERIAL
-from tidybot2.arm_server import ArmManager
-from tidybot2.base_server import BaseManager
+from cameras import KinovaCamera, LogitechCamera
+from constants import BASE_RPC_HOST, BASE_RPC_PORT, ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
+from constants import BASE_CAMERA_SERIAL
+from arm_server import ArmManager
+from base_server import BaseManager
 
 class RealEnv:
     def __init__(self):
