@@ -287,7 +287,7 @@ class RemotePolicy(TeleopPolicy):
 
         # Check connection to policy server and reset policy
         default_timeout = self.socket.getsockopt(zmq.RCVTIMEO)
-        self.socket.setsockopt(zmq.RCVTIMEO, 1000)  # Temporarily set 1000 ms timeout
+        self.socket.setsockopt(zmq.RCVTIMEO, 10000)  # Temporarily set 1000 ms timeout
         self.socket.send_pyobj({'reset': True})
         try:
             self.socket.recv_pyobj()  # Note: Not secure. Only unpickle data you trust.

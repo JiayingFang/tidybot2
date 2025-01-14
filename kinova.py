@@ -208,10 +208,10 @@ class TorqueControlledArm:
         assert not self.cyclic_running, 'Cyclic thread is already running'
 
         # Set real-time scheduling policy
-        try:
-            os.sched_setscheduler(0, os.SCHED_FIFO, os.sched_param(os.sched_get_priority_max(os.SCHED_FIFO)))
-        except PermissionError:
-            print('Failed to set real-time scheduling policy, please edit /etc/security/limits.d/99-realtime.conf')
+        # try:
+        os.sched_setscheduler(0, os.SCHED_FIFO, os.sched_param(os.sched_get_priority_max(os.SCHED_FIFO)))
+        # except PermissionError:
+        #     print('Failed to set real-time scheduling policy, please edit /etc/security/limits.d/99-realtime.conf')
 
         # Initialize command frame
         self.base_feedback = self.base_cyclic.RefreshFeedback()
