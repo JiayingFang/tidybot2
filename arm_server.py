@@ -13,9 +13,10 @@ import time
 from multiprocessing.managers import BaseManager as MPBaseManager
 import numpy as np
 from arm_controller import JointCompliantController
-from constants import ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
+from constants import ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY, EE_OFFSET
 from ik_solver import IKSolver
 from kinova import TorqueControlledArm
+
 
 class Arm:
     def __init__(self):
@@ -23,7 +24,7 @@ class Arm:
         self.arm.set_joint_limits(speed_limits=(7 * (30,)), acceleration_limits=(7 * (80,)))
         self.command_queue = queue.Queue(1)
         self.controller = None
-        self.ik_solver = IKSolver(ee_offset=0.12)
+        self.ik_solver = IKSolver(ee_offset=EE_OFFSET)
 
     def reset(self):
         # Stop low-level control

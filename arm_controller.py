@@ -9,7 +9,7 @@ import math
 import time
 import numpy as np
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
-from constants import POLICY_CONTROL_PERIOD
+from constants import POLICY_CONTROL_PERIOD, EE_OFFSET
 from kinova import TorqueControlledArm
 
 ALPHA = 0.01
@@ -140,7 +140,7 @@ def command_loop_retract(command_queue, stop_event):
 
 def command_loop_circle(arm, command_queue, stop_event):
     from ik_solver import IKSolver
-    ik_solver = IKSolver(ee_offset=0.12)
+    ik_solver = IKSolver(ee_offset=EE_OFFSET)
     quat = np.array([0.707, 0.707, 0.0, 0.0])  # (x, y, z, w)
     radius = 0.1
     num_points = 30
