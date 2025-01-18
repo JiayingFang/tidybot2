@@ -28,7 +28,9 @@ class HumanShadowKinovaEnv:
         # self.ee_home_pos = np.array([0.3, 0, 0.3])
         # self.ee_home_ori = np.array([1, 0, 0, 0])
         self.ee_home_pos = np.array([0.135, 0.002, 0.211])
+        # self.ee_home_pos = np.array([0.235, 0.002, 0.211])
         self.ee_home_ori = np.array([0.706, 0.707, 0.029, 0.029])
+        # self.ee_home_ori = np.array([0, 1, 0, 0])
         self.gripper_home_pos = np.array([0])
 
         # Initialize redis
@@ -86,7 +88,7 @@ class HumanShadowKinovaEnv:
         self.redis_pipe.set(KEY_SENSOR_GRIPPER, encode_matlab(state["gripper_pos"]))
         self.redis_pipe.execute()
 
-    def is_safe(self, pos_des, ori_des, linear_thresh = 0.2, ang_thresh=0.6):
+    def is_safe(self, pos_des, ori_des, linear_thresh = 0.2, ang_thresh=0.8):
         state = self.arm.get_state()
         if np.linalg.norm(pos_des - state["arm_pos"]) > linear_thresh:
             return False

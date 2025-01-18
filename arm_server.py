@@ -21,7 +21,8 @@ from kinova import TorqueControlledArm
 class Arm:
     def __init__(self):
         self.arm = TorqueControlledArm()
-        self.arm.set_joint_limits(speed_limits=(7 * (30,)), acceleration_limits=(7 * (80,)))
+        self.arm.set_joint_limits(speed_limits=(7 * (5,)), acceleration_limits=(7 * (10,)))
+        # self.arm.set_joint_limits(speed_limits=(7 * (30,)), acceleration_limits=(7 * (80,)))
         self.command_queue = queue.Queue(1)
         self.controller = None
         self.ik_solver = IKSolver(ee_offset=EE_OFFSET)

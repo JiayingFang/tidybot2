@@ -156,22 +156,22 @@ class TeleopController:
                     self.arm_xr_ref_rot_inv = rot.inv()
                     self.arm_ref_pos = self.arm_target_pos.copy()
                     self.arm_ref_rot = self.arm_target_rot
-                    self.arm_ref_base_pose = self.base_pose.copy()
+                    # self.arm_ref_base_pose = self.base_pose.copy()
                     self.gripper_ref_pos = self.gripper_target_pos
 
                 # Rotations around z-axis to go between global frame (base) and local frame (arm)
-                z_rot = R.from_rotvec(np.array([0.0, 0.0, 1.0]) * self.base_pose[2])
-                z_rot_inv = z_rot.inv()
-                ref_z_rot = R.from_rotvec(np.array([0.0, 0.0, 1.0]) * self.arm_ref_base_pose[2])
+                # z_rot = R.from_rotvec(np.array([0.0, 0.0, 1.0]) * self.base_pose[2])
+                # z_rot_inv = z_rot.inv()
+                # ref_z_rot = R.from_rotvec(np.array([0.0, 0.0, 1.0]) * self.arm_ref_base_pose[2])
 
                 # Position
                 pos_diff = pos - self.arm_xr_ref_pos  # WebXR
-                pos_diff += ref_z_rot.apply(self.arm_ref_pos) - z_rot.apply(self.arm_ref_pos)  # Secondary base control: Compensate for base rotation
-                pos_diff[:2] += self.arm_ref_base_pose[:2] - self.base_pose[:2]  # Secondary base control: Compensate for base translation
-                self.arm_target_pos = self.arm_ref_pos + z_rot_inv.apply(pos_diff)
+                # pos_diff += ref_z_rot.apply(self.arm_ref_pos) - z_rot.apply(self.arm_ref_pos)  # Secondary base control: Compensate for base rotation
+                # pos_diff[:2] += self.arm_ref_base_pose[:2] - self.base_pose[:2]  # Secondary base control: Compensate for base translation
+                self.arm_target_pos = self.arm_ref_pos + pos_diff
 
                 # Orientation
-                self.arm_target_rot = (z_rot_inv * (rot * self.arm_xr_ref_rot_inv) * ref_z_rot) * self.arm_ref_rot
+                self.arm_target_rot = (rot * self.arm_xr_ref_rot_inv) * self.arm_ref_rot # (z_rot_inv * (rot * self.arm_xr_ref_rot_inv) * ref_z_rot) * self.arm_ref_rot
 
                 # Gripper position
                 self.gripper_target_pos = np.clip(self.gripper_ref_pos + data['gripper_delta'], 0.0, 1.0)
@@ -183,11 +183,11 @@ class TeleopController:
 
     def step(self, obs):
         # Update robot state
-        self.base_pose = obs['base_pose']
+        # self.base_pose = obs['base_pose']
 
         # Initialize targets
         if not self.targets_initialized:
-            self.base_target_pose = obs['base_pose']
+            # self.base_target_pose = obs['base_pose']
             self.arm_target_pos = obs['arm_pos']
             self.arm_target_rot = R.from_quat(obs['arm_quat'])
             self.gripper_target_pos = obs['gripper_pos']
@@ -202,7 +202,7 @@ class TeleopController:
         if arm_quat[3] < 0.0:  # Enforce quaternion uniqueness (Note: Not strictly necessary since policy training uses 6D rotation representation)
             np.negative(arm_quat, out=arm_quat)
         action = {
-            'base_pose': self.base_target_pose.copy(),
+            # 'base_pose': self.base_target_pose.copy(),
             'arm_pos': self.arm_target_pos.copy(),
             'arm_quat': arm_quat,
             'gripper_pos': self.gripper_target_pos.copy(),

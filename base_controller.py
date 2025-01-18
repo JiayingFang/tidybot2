@@ -169,7 +169,7 @@ class Vehicle:
         self.max_accel = np.array(max_accel)
 
         # Use PID file to enforce single instance
-        create_pid_file('tidybot2-base-controller')
+        create_pid_file('tidybot2-base-teleop-controller')
 
         # Initialize casters
         self.casters = [Caster(num) for num in range(1, NUM_CASTERS + 1)]
